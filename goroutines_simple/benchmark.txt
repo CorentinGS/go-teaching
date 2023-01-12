@@ -1,0 +1,21 @@
+goos: linux
+goarch: amd64
+pkg: github.com/corentings/goTeaching/goroutines_simple
+cpu: AMD Ryzen 9 5950X 16-Core Processor            
+Benchmark_SimpleConvertPineApplesToSafety/Benchmark_SimpleConvertPineApplesToSafety-500-32         	  356217	     15797 ns/op
+Benchmark_SimpleConvertPineApplesToSafety/Benchmark_SimpleConvertPineApplesToSafety-1000-32        	  182169	     32020 ns/op
+Benchmark_SimpleConvertPineApplesToSafety/Benchmark_SimpleConvertPineApplesToSafety-2000-32        	   85809	     66483 ns/op
+Benchmark_SimpleConvertPineApplesToSafety/Benchmark_SimpleConvertPineApplesToSafety-5000-32        	   31966	    193254 ns/op
+Benchmark_SimpleConvertPineApplesToSafety/Benchmark_SimpleConvertPineApplesToSafety-10000-32       	   12246	    464556 ns/op
+Benchmark_GoroutinesConvertPineApplesToSafety/Benchmark_GoroutinesConvertPineApplesToSafety-500-32 	  261080	     23496 ns/op
+Benchmark_GoroutinesConvertPineApplesToSafety/Benchmark_GoroutinesConvertPineApplesToSafety-1000-32         	  126720	     46180 ns/op
+Benchmark_GoroutinesConvertPineApplesToSafety/Benchmark_GoroutinesConvertPineApplesToSafety-2000-32         	   64488	     87702 ns/op
+Benchmark_GoroutinesConvertPineApplesToSafety/Benchmark_GoroutinesConvertPineApplesToSafety-5000-32         	   24510	    242396 ns/op
+Benchmark_GoroutinesConvertPineApplesToSafety/Benchmark_GoroutinesConvertPineApplesToSafety-10000-32        	   10365	    507128 ns/op
+Benchmark_NoMutexGoroutinesConvertPineApplesToSafety/Benchmark_NoMutexGoroutinesConvertPineApplesToSafety-500-32         	  202218	     28334 ns/op
+Benchmark_NoMutexGoroutinesConvertPineApplesToSafety/Benchmark_NoMutexGoroutinesConvertPineApplesToSafety-1000-32        	  114523	     48743 ns/op
+Benchmark_NoMutexGoroutinesConvertPineApplesToSafety/Benchmark_NoMutexGoroutinesConvertPineApplesToSafety-2000-32        	   55854	    104944 ns/op
+Benchmark_NoMutexGoroutinesConvertPineApplesToSafety/Benchmark_NoMutexGoroutinesConvertPineApplesToSafety-5000-32        	   23035	    256947 ns/op
+Benchmark_NoMutexGoroutinesConvertPineApplesToSafety/Benchmark_NoMutexGoroutinesConvertPineApplesToSafety-10000-32       	   10098	    533008 ns/op
+PASS
+ok  	github.com/corentings/goTeaching/goroutines_simple	102.004s
