@@ -240,4 +240,4 @@ I'd prefer to have a simple function that takes a few milliseconds longer to com
 
 ## Code
 
-The code for this article can be found on [Github](
+The code for this article can be found on [Github](https://github.com/CorentinGS/go-teaching/tree/main/goroutines_simple_vs_complex).

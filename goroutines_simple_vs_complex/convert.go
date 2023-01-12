@@ -1,4 +1,4 @@
-package goroutines_simple
+package goroutines_simple_vs_complex
 
 import "sync"
 
