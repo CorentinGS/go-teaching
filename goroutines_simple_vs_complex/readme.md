@@ -240,4 +240,32 @@ I'd prefer to have a simple function that takes a few milliseconds longer to com
 
 ## Code
 
-The code for this article can be found on [Github](https://github.com/CorentinGS/go-teaching/tree/main/goroutines_simple_vs_complex).
+The code for this article can be found on [GitHub](https://github.com/CorentinGS/go-teaching/tree/main/goroutines_simple_vs_complex).
+
+## License
+
+This article and the corresponding code is licensed under the [ISC License](https://github.com/CorentinGS/go-teaching/blob/main/LICENSE). 
+If you want to distribute or cite this article and the corresponding code you can do it as long as you follow the ISC License and this steps:
+  - Cite the [GitHub repo](https://github.com/CorentinGS/go-teaching/tree/main/goroutines_simple_vs_complex)
+  - Include the [License](https://github.com/CorentinGS/go-teaching/blob/main/LICENSE)
+  - Email me or DM me on social networks to tell me how you reused my article so that I mention you on GitHub
+
+## Contributing
+
+If you want to contribute to the article or to the code itself, please feel free to open a pull request.
+
+You can also [contact](https://corentings.vercel.app/links) me.
+
+If you have any questions regarding this article, please open an issue.
+
+## Disclaimer 
+
+I'm not a professional gopher and my publications shouldn't be taken as entirely true nor accurate/perfect. 
+This article is a personal work for further research and development purposes only. 
+I hope that it will be useful for others, but it shouldn't be seen as a guide. 
+
+
+
+
+
+
