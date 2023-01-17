@@ -31,7 +31,6 @@ func main() {
 	log.Printf("Welcome to the pizza delivery service!")
 
 	ctx, cancelFunc := context.WithCancel(context.Background())
-	defer cancelFunc()
 
 	// Create a wait group to wait for all the goroutines to finish
 	var wg sync.WaitGroup
@@ -46,23 +45,31 @@ func main() {
 		go driver(i, &wg, ctx)
 	}
 
-	func(ctx context.Context) {
+	wg.Add(1)
+
+	go func(ctx context.Context) {
 		for {
 			select {
 			case <-time.After(1 * time.Second):
 				client()
-			case <-time.After(20 * time.Second):
-				ctx.Done()
-				log.Printf("Restaurant is closing")
+			case <-ctx.Done():
+				wg.Done()
 				return
 			}
 		}
 	}(ctx)
 
+	time.Sleep(20 * time.Second)
+	cancelFunc()
+	ctx.Done()
+
+	log.Printf("Restaurant is closing")
+
+	wg.Wait()
+
 	close(closeChan)
 	close(orderChan)
 	close(deliveryChan)
-	wg.Wait()
 
 	log.Printf("All done!")
 
@@ -71,7 +78,6 @@ func main() {
 func driver(id int, wg *sync.WaitGroup, ctx context.Context) {
 	counter := 0
 	duration := 0 * time.Second
-	defer wg.Done()
 	log.Printf("Driver #%d is ready to deliver!", id)
 	for {
 		select {
@@ -86,6 +92,7 @@ func driver(id int, wg *sync.WaitGroup, ctx context.Context) {
 				duration = 0 * time.Second
 			}
 		case <-ctx.Done():
+			wg.Done()
 			return
 		}
 	}
@@ -100,6 +107,7 @@ func barista(wg *sync.WaitGroup, ctx context.Context) {
 			time.Sleep(3 * time.Second)
 			deliveryChan <- pizza
 		case <-ctx.Done():
+			wg.Done()
 			return
 
 		}
