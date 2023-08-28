@@ -2,9 +2,10 @@ package goroutines_merge_sort_test
 
 import (
 	"fmt"
-	"github.com/corentings/goTeaching/goroutines_merge_sort"
 	"reflect"
 	"testing"
+
+	"github.com/corentings/goTeaching/goroutines_merge_sort"
 )
 
 func testFramework(t *testing.T, sortingFunction func([]int) []int) {

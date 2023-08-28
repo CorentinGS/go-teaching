@@ -9,35 +9,78 @@ import (
 )
 
 func simpleParallelSumSquare(items []int) int {
+	if len(items) <= 10000 { // Threshold for small slices
+		return simpleSumSquare(items) // Use the simpleSumSquare function
+	}
+
 	const chunkSize = 10000
 
 	// Divide the items into chunks
 	chunks := make([][]int, 0)
 	for i := 0; i < len(items); i += chunkSize {
-		end := i + chunkSize
+		end := i + chunkSize // end index for the chunk
 		if end > len(items) {
-			end = len(items)
+			end = len(items) // last chunk may be smaller than chunkSize
 		}
-		chunks = append(chunks, items[i:end])
+		chunks = append(chunks, items[i:end]) // append the chunk to the chunks slice
 	}
 
 	// Create a goroutine for each chunk
 	wg := sync.WaitGroup{}
-	resultChan := make(chan int, len(chunks))
+	resultChan := make(chan int, len(chunks)) // channel for receiving results
 
-	for _, chunk := range chunks {
-		wg.Add(1)
-		go func(chunk []int) {
-			resultChan <- simpleSumSquare(chunk)
-			wg.Done()
-		}(chunk)
+	for _, chunk := range chunks { // iterate over the chunks
+		wg.Add(1)              // increment the wait group counter
+		go func(chunk []int) { // create a goroutine
+			resultChan <- simpleSumSquare(chunk) // send the result to the result channel
+			wg.Done()                            // decrement the wait group counter when the goroutine finishes
+		}(chunk) // pass the chunk to the goroutine
 	}
 
-	// Wait for all goroutines to finish
+	wg.Wait()         // Wait for all goroutines to finish
+	close(resultChan) // close the result channel
+
+	// Sum the results
+	total := 0
+	for partialSum := range resultChan {
+		total += partialSum
+	}
+
+	return total // return the total sum
+}
+
+func optimizedParallelSumSquare(items []int) int {
+	if len(items) <= 10000 {
+		return simpleSumSquare(items)
+	}
+
+	const chunkSize = 10000
+
+	// Divide the items into chunks without creating a slice of slices
+	// Instead, we create a slice of start and end indices
+	chunkIndices := make([]struct{ start, end int }, 0)
+	for i := 0; i < len(items); i += chunkSize {
+		end := i + chunkSize
+		if end > len(items) {
+			end = len(items)
+		}
+		chunkIndices = append(chunkIndices, struct{ start, end int }{i, end})
+	}
+
+	wg := sync.WaitGroup{}
+	resultChan := make(chan int, len(chunkIndices))
+
+	for _, indices := range chunkIndices {
+		wg.Add(1)
+		go func(start, end int) {
+			resultChan <- simpleSumSquare(items[start:end])
+			wg.Done()
+		}(indices.start, indices.end)
+	}
+
 	wg.Wait()
 	close(resultChan)
 
-	// Sum the results
 	total := 0
 	for partialSum := range resultChan {
 		total += partialSum
@@ -47,43 +90,44 @@ func simpleParallelSumSquare(items []int) int {
 }
 
 func simpleSumSquare(items []int) int {
-	total := 0
+	total := 0 // total sum
 	for i := 0; i < len(items); i++ {
-		total += items[i] * items[i]
+		total += items[i] * items[i] // square the item and add it to the total
 	}
-	return total
+	return total // return the total sum
 }
 
 func sumSquare(items []int) int {
-	number := make(chan int)
-	response := make(chan int)
+	number := make(chan int)   // channel for sending numbers
+	response := make(chan int) // channel for receiving responses
 
-	var wg sync.WaitGroup
+	var wg sync.WaitGroup // wait group for waiting for all goroutines to finish
 
-	total := 0
+	total := 0 // total sum
 
+	// Create a goroutine for each item in the slice
 	for _, item := range items {
-		wg.Add(1)
-		go func(item int) {
-			defer wg.Done()
-			sum1 := <-number
-			sum1 = sum1 * sum1
-			response <- sum1
-		}(item)
-		number <- item
-		total += <-response
+		wg.Add(1)           // increment the wait group counter
+		go func(item int) { // create a goroutine
+			defer wg.Done()    // decrement the wait group counter when the goroutine finishes
+			sum1 := <-number   // receive a number from the number channel
+			sum1 = sum1 * sum1 // square the number
+			response <- sum1   // send the result to the response channel
+		}(item) // pass the item to the goroutine
+		number <- item      // send the item to the number channel
+		total += <-response // receive the result from the response channel
 	}
 
-	defer close(number)
-	defer close(response)
+	defer close(number)   // close the number channel
+	defer close(response) // close the response channel
 
-	wg.Wait()
+	wg.Wait() // wait for all goroutines to finish
 
-	return total
+	return total // return the total sum
 }
 
 func parallelSumSquare(items []int) int {
-	if len(items) < 10000 { // Threshold for small slices
+	if len(items) <= 10000 { // Threshold for small slices
 		return simpleSumSquare(items)
 	}
 

@@ -3,10 +3,9 @@ package goroutines_simple_vs_complex
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/go-faker/faker/v4"
-
-	"time"
 )
 
 func Benchmark_SimpleConvertPineApplesToSafety(b *testing.B) {

@@ -76,9 +76,10 @@ func benchmarkFramework(b *testing.B, sumFunction func([]int) int) {
 	}
 }
 
+/*
 func BenchmarkSumSquare(b *testing.B) {
 	benchmarkFramework(b, sumSquare)
-}
+} */
 
 func BenchmarkSimpleSumSquare(b *testing.B) {
 	benchmarkFramework(b, simpleSumSquare)
@@ -114,4 +115,12 @@ func TestUnsafeParallelSumSquare(t *testing.T) {
 
 func BenchmarkUnsafeParallelSumSquare(b *testing.B) {
 	benchmarkFramework(b, unsafeParallelSumSquare)
+}
+
+func TestOptimizedParallelSumSquare(t *testing.T) {
+	testFramework(t, optimizedParallelSumSquare)
+}
+
+func BenchmarkOptimizedParallelSumSquare(b *testing.B) {
+	benchmarkFramework(b, optimizedParallelSumSquare)
 }
